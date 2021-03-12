@@ -56,16 +56,15 @@ module.exports = {
  * Add new record to memory DB
  * @param name
  */
-    setNewId: function setNewIdToDb(name) {
+ setNewId: function setNewIdToDb(name) {
     client.keys('*', function(err,keys) {
-    let id = 0;
-        for (let key in keys){
-            id++
-        }
-    client.set('user'+ id, JSON.stringify({"id": id, "name": name}))  
+    let id = keys.length
+    if(keys.includes('user'+id)){
+        id = id+1
+    }
+    client.set('user'+id, JSON.stringify({"id": id, "name": name}))  
     })
 },
-
 /**
  * Update record into memory DB
  * @param id
